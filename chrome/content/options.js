@@ -46,7 +46,7 @@ var SyncPlacesOptions = {
 	encryptUser: 'syncplaces-encryption',
 	passwordUser: 'syncplaces-password',
 	prefsFile: 'syncplaces_prefs.json',
-	version: "5.1.1-GR",
+	version: "5.1.2",
 
 	onActionLoad: function() {
 		this.lastTransferTimes(true);
@@ -1202,7 +1202,7 @@ var SyncPlacesOptions = {
 		//Warning about automation
 		if (this.prefs.getBoolPref("regular_transfer") || this.prefs.getBoolPref("timed_transfer"))
 			this.alert2(null, 'restart_automation', null, false,
-						"http://www.andyhalford.com/syncplaces/options.html#automation");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html#automation");
 	},
 
 	addProfile: function(name) {

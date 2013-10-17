@@ -342,7 +342,12 @@ if (this.sp_debug) SyncPlacesIO.log("Using compression");
 if (this.sp_debug) SyncPlacesIO.log("Sending type: " + this.sp_type);
 
 			//Get an upload channel to send through
-			this.sp_channel.setUploadStream(stream, contentType, -1);
+      try{
+          this.sp_channel.setUploadStream(stream, contentType, -1);
+      } catch (e) {
+          SyncPlacesIO.log ("sp_channel.setUploadStream failed: " + e + e.message);
+      }
+			
 
 			//Option to try the old style approach when sending
 			//(normally used with ftp)
@@ -362,7 +367,12 @@ if (this.sp_debug) SyncPlacesIO.log("Using 'old_send_conversion'");
 					this.sp_normal_conversion = false;
 
 				//NB See MDC: This will do a 'PUT' by default with http
-				this.sp_channel.asyncOpen(this, null);
+        try {
+            this.sp_channel.asyncOpen(this, null);
+        } catch (e){
+            SyncPlacesIO.log ("Ansynchronous opening a channel failed for URI " + SyncPlacesIO.showURI(uri) + ": " + e + e.message);
+        }
+				
 			}
 		}
 

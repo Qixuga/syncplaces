@@ -26,10 +26,6 @@
  *   Dietrich Ayala <dietrich@mozilla.com>
  *   Marco Bonardo <mak77@bonardo.net>
  *
- * Updated by:
- *   Gerd Röthig <gerd.roethig@gmail.com>
- *   Last Edit: 12-SEP-2013
- *      
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
  * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
@@ -44,16 +40,20 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+    const Cc = Components.classes;
+    const Ci = Components.interfaces;
+    const Cr = Components.results;
+    const Cu = Components.utils;
+
 try {
-	Components.utils.import("resource://gre/modules/PlacesUtils.jsm");
+	Cu.import("resource://gre/modules/PlacesUtils.jsm");
 } catch(ex) {
-	Components.utils.import("resource://gre/modules/utils.js");
+	Cu.import("resource://gre/modules/utils.js");
 }
 
 var SyncPlacesUtils = {
 	SP_TAG: "syncplaces/tag",
-  
- 
+
   /**
    * Import bookmarks from a JSON string in UTF-8 format
    */
@@ -69,10 +69,10 @@ var SyncPlacesUtils = {
 				if (!SyncPlacesBookmarks.sameValue(title1, title2, false)) {
 					if (!title2)
 						SyncPlacesOptions.alert2(null, 'all_places_not_expected', null, timeout,
-							"http://www.andyhalford.com/syncplaces/options.html");
+							"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 					else
 						SyncPlacesOptions.alert2(null, 'wrong_title_subfolder', title1 + " != " + title2, timeout,
-							"http://www.andyhalford.com/syncplaces/options.html");
+							"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 
 					return false;
 				}
@@ -81,7 +81,7 @@ var SyncPlacesUtils = {
 			//It's not the whole tree is it? (should never get here)
 			if (nodes[0].children[0].root) {
 				SyncPlacesOptions.alert2(null, 'all_places_not_expected', null, timeout,
-					"http://www.andyhalford.com/syncplaces/options.html");
+					"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 				return false;
 			}
 			return true;
@@ -140,7 +140,7 @@ var SyncPlacesUtils = {
 		//Check you're not receiving a subfolder, when you're expecting everything
 		else if (!nodes[0].children[0].root) {
 			SyncPlacesOptions.alert2(null, 'restoring_subfolder_by_mistake', null, timeout,
-				"http://www.andyhalford.com/syncplaces/options.html");
+				"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 			return false;
 		}
 
@@ -371,7 +371,7 @@ var SyncPlacesUtils = {
 
 		} catch(e) {
 			//Report the original error just in case
-			Components.utils.reportError(e);
+			Cu.reportError(e);
 
 			//If fails then run it in non-batch mode to trap the error better
 			batch.runBatched();
@@ -432,15 +432,11 @@ var SyncPlacesUtils = {
 													 mergeUnsorted, mergeDeletes, syncFolderID, lastSend, receivedIds, useTimestamps, oldNodes, missingNodes, debug,
 													 containerTitle, stats, aGrandParentId)
 	{
-
-    var folderIdMap = [];
+		var folderIdMap = [];
 		var searchIds = [];
 		var id = -1;
 		var update = false;	//set to true if updating an existing item
-    
 		if (!index) index = 0;
-
-
 		switch (node.type) {
 			case PlacesUtils.TYPE_X_MOZ_PLACE_CONTAINER:
 				//Tags (which are done last)
@@ -515,11 +511,14 @@ var SyncPlacesUtils = {
 							if (update) stats.updated.livemarks++;
 							else stats.added.livemarks++;
 						}
-            
-  //          PlacesUtils.livemarks.createLivemarkFolderOnly has been removed by Mozilla
-  //          therefore disabled change by GR (Mozilla does not really want Livemarks to be used anymore)
-	//					id = PlacesUtils.livemarks.createLivemarkFolderOnly(container, node.title, siteURI, feedURI, index);
-  //	  					receivedIds.push(id);
+						
+            //updated by GR
+            //new API does not give back an ID when adding a livemark (asynchronous operation - no wait until adding livemark is finished)
+            this.createLivemarkFolderOnly(container, node.title, siteURI, feedURI, index);
+						// receivedIds.push(id);
+						 
+            // this.createLivemarkFolderOnly(container, node.title, siteURI, feedURI, index);  
+            // receivedIds.push(id);
 					}
 				}
 
@@ -1017,5 +1016,44 @@ var SyncPlacesUtils = {
 
     // serialize to stream
     serializeNodeToJSONStream(aNode, null, false);
+  }, 
+
+  // inserted by GR - Replacement for PlacesUtils.livemarks.createLivemarkFolderOnly
+ 
+  createLivemarkFolderOnly: function(aParentId, aName, aSiteURI, aFeedURI, aIndex) {
+
+        var completed = this;
+        
+        completed.onCompletion = function (aStatus, aLivemark){
+              SyncPlacesIO.log("Livemark Id: " + aLivemark.id); 
+              receivedIds.push(aLivemark.id);
+        };
+
+        if (aParentId < 1 || !aFeedURI)
+          throw Cr.NS_ERROR_INVALID_ARG;
+
+        // Don't add livemarks to livemarks
+        if (PlacesUtils.annotations.itemHasAnnotation(aParentId, SyncPlacesBookmarks.SP_LMANNO_FEEDURI))
+          throw Cr.NS_ERROR_INVALID_ARG;
+        SyncPlacesIO.log ("Trying to add livemark " 
+                           + aName 
+                           + ", " 
+                           + SyncPlacesIO.showURI(aSiteURI)
+                           + ", " 
+                           + SyncPlacesIO.showURI(aFeedURI)
+                           + ", " 
+                           + aIndex);
+        try {
+            PlacesUtils.livemarks.addLivemark ({ 
+                                                            parentId: aParentId, 
+                                                            index: aIndex,  
+                                                            feedURI: aFeedURI,
+                                                            siteURI: aSiteURI,
+                                                            title: aName,
+                                                             }, completed);
+            }
+            catch(e) {
+                    SyncPlacesIO.log("Failed to add livemark " + aName + ": " + e + e.message);
+            }                                                 
   }
 };

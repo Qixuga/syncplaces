@@ -1,4 +1,4 @@
-﻿/* ***** BEGIN LICENSE BLOCK *****
+/* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -223,7 +223,7 @@ var SyncPlaces = {
 				this.timedStatus('bookmarks_saved', true, false);
 
 			} catch (exception) {
-SyncPlacesIO.log("ERROR SyncPlacesXBELOut: "+ exception);
+        SyncPlacesIO.log("ERROR SyncPlacesXBELOut: "+ exception);
 				SyncPlacesOptions.alert2(exception, 'cant_save_bookmarks', null, true);
 			}
 		}
@@ -287,7 +287,8 @@ SyncPlacesIO.log("showAlert="+showAlert);
 			this.timedStatus('bookmarks_saved', showAlert, false);
 			window.setCursor("auto");
 		}
-SyncPlacesIO.log("returning backupFilePath="+backupFilePath);
+    
+    SyncPlacesIO.log("returning backupFilePath=" + SyncPlacesIO.showURIpath(backupFilePath));
 		return backupFilePath;
 	},
 

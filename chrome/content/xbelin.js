@@ -63,7 +63,7 @@ function SyncPlacesXBELIn(filePath, timeout) {
 			}
 			else {
 				SyncPlacesOptions.alert2(null, 'select_subfolder', null, timeout,
-					"http://www.andyhalford.com/syncplaces/options.html");
+					"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 				return null;
 			}
 		}

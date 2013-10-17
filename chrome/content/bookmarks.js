@@ -100,11 +100,11 @@ var SyncPlacesBookmarks = {
 			for (var i = 0; i < container.childCount; i++) {
 				var child = container.getChild(i);
 
-				if (true /* CW !PlacesUtils.nodeIsLivemarkContainer(child)*/) {
+				if (!SyncPlacesBookmarks.nodeIsLivemarkContainer(child)) {
 					if (PlacesUtils.nodeIsBookmark(child)) {
 						addTagAnno(child);
 					}
-					else if (PlacesUtils.nodeIsFolder(child) /*&& !PlacesUtils.nodeIsLivemarkContainer(child)*/)
+					else if (PlacesUtils.nodeIsFolder(child) && !SyncPlacesBookmarks.nodeIsLivemarkContainer(child))
 					{
 						//Ignore the untitled internal stuff
 						if (container.itemId == PlacesUtils.placesRootId && !child.title) {
@@ -230,14 +230,14 @@ var SyncPlacesBookmarks = {
 
 		} catch(exception) {
 			SyncPlacesOptions.alert2(null, 'missing_subfolder', null, timeout,
-				"http://www.andyhalford.com/syncplaces/options.html");
+				"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 			return false;
 		}
 
 		//Type check
 		if (type != PlacesUtils.bookmarks.TYPE_FOLDER) {
 			SyncPlacesOptions.alert2(null, 'wrong_type_subfolder', null, timeout,
-				"http://www.andyhalford.com/syncplaces/options.html");
+				"http://home.arcor.de/dac324/firefox/syncplaces/pages/options.html");
 			return false;
 		}
 		return true;
@@ -322,7 +322,7 @@ var SyncPlacesBookmarks = {
 		var existingID = -1;
 		for (var i = 0; i < result.childCount; i++) {
 			var child = result.getChild(i);
-// CW			if (PlacesUtils.nodeIsLivemarkContainer(child)) continue;
+			if (SyncPlacesBookmarks.nodeIsLivemarkContainer(child)) continue;
 			var folderID = child.itemId;
 			if (this.sameValue(node.title,
 												 PlacesUtils.bookmarks.getItemTitle(folderID),
@@ -654,8 +654,8 @@ var SyncPlacesBookmarks = {
 				removeOldItem(child, mergeSeperators, container.title, SyncPlacesBookmarks.SEPARATOR);
 			else if (PlacesUtils.nodeIsQuery(child))
 				removeOldQuery(child, mergeQueries, container.title);
-// CW			else if (PlacesUtils.nodeIsLivemarkContainer(child))
-//				removeOldItem(child, mergeLivemarks, container.title, SyncPlacesBookmarks.LIVEMARK);
+			else if (SyncPlacesBookmarks.nodeIsLivemarkContainer(child))
+				removeOldItem(child, mergeLivemarks, container.title, SyncPlacesBookmarks.LIVEMARK);
 			else if (PlacesUtils.nodeIsBookmark(child))
 				removeOldItem(child, mergeBookmarks, container.title, SyncPlacesBookmarks.BOOKMARK);
 
@@ -748,8 +748,7 @@ var SyncPlacesBookmarks = {
 				//Open the folder
 				for (var i = 0; i < container.childCount; i++) {
 					var node = container.getChild(i);
-					if (PlacesUtils.nodeIsQuery(node)
-// CW					|| PlacesUtils.nodeIsLivemarkContainer(node)
+					if (PlacesUtils.nodeIsQuery(node) || SyncPlacesBookmarks.nodeIsLivemarkContainer(node)
 					) {
 						//Do nothing
 					}
@@ -814,13 +813,36 @@ var SyncPlacesBookmarks = {
 	restoreFavicons: function() {
 		try {
 			//Run it in batch mode cos updating a lot of bookmarks
+      //TODO for debugging (by GR) - try...catch all external function calls because one of them is throwing an exception
 			var batch = {
 				runBatched: function() {
+        
+       try {
 					var options = PlacesUtils.history.getNewQueryOptions();
-					var query = PlacesUtils.history.getNewQuery();
+					}
+       catch (e) {
+			    Components.utils.reportError(e);
+			    SyncPlacesIO.log("ERROR 2 - PlacesUtils.history.getNewQueryOptions(): "+ e);
+		   }
+       
+       try {   
+          var query = PlacesUtils.history.getNewQuery();
+          }
+       catch (e) {
+			    Components.utils.reportError(e);
+			    SyncPlacesIO.log("ERROR 2 - PlacesUtils.history.getNewQuery(): "+ e);
+		   }
+          
 					query.setFolders([PlacesUtils.placesRootId], 1);
+          
+       try {   
 					var result = PlacesUtils.history.executeQuery(query, options);
-
+        }
+       catch (e) {
+			    Components.utils.reportError(e);
+			    SyncPlacesIO.log("ERROR 2 - PlacesUtils.history.executeQuery(query, options): "+ e);
+		   }
+         
 					//Trawl through the results looking for favicons
 					this.getFavicons(result.root);
 				},
@@ -856,8 +878,7 @@ var SyncPlacesBookmarks = {
 					//Open the folder
 					for (var i = 0; i < container.childCount; i++) {
 						var node = container.getChild(i);
-						if (PlacesUtils.nodeIsQuery(node)
-// CW						|| PlacesUtils.nodeIsLivemarkContainer(node)
+						if (PlacesUtils.nodeIsQuery(node) || SyncPlacesBookmarks.nodeIsLivemarkContainer(node)
 						) {
 							//Do nothing
 						}
@@ -927,5 +948,11 @@ var SyncPlacesBookmarks = {
 			Components.utils.reportError(e);
 			SyncPlacesIO.log("ERROR 2: "+ e);
 		}
-	}
+	},
+    //Helper to replace PlacesUtils.nodeIsLivemarkContainer which was removed by Mozilla
+  
+  nodeIsLivemarkContainer: function (aNode) {
+        return PlacesUtils.nodeIsFolder(aNode) && PlacesUtils.annotations.itemHasAnnotation(aNode.itemId, SyncPlacesBookmarks.SP_LMANNO_FEEDURI); 
+    }
+
 };

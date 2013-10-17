@@ -257,5 +257,37 @@ var SyncPlacesIO = {
 	log: function(data) {
 		if (!this.logFilePath) this.createLog();
 		this.saveFilePath(this.logFilePath, new Date().toLocaleString() + " " + data + "\n", false, true);
-	}
+	},
+  
+  //displays the path of a given nsURI object
+  showURIpath: function (anURI) {
+    try {
+        var bfp = XPCNativeWrapper.unwrap(anURI);
+    } catch (e) {
+       SyncPlacesIO.log("Error reading nsIURI object: " + e + e.message);
+    }
+       return bfp.path;
+  },
+  //displays the host and path of a given nsURI object
+  showURI: function (anURI) {
+    var result="";
+    try {
+        var bfp = XPCNativeWrapper.unwrap(anURI);
+    } catch (e) {
+       SyncPlacesIO.log("Error reading nsIURI object: " + e + e.message);
+    }
+       
+       if  (typeof(bfp.spec) !== "undefined") {
+          result = result + bfp.spec;
+          return result;
+       } 
+       if  (typeof(bfp.host) !== "undefined") {
+          result = result + bfp.host;
+       } 
+       if  (typeof(bfp.path) !== "undefined") {
+          result = result + " " + bfp.path;
+       } 
+       return result;
+  }
+
 }
