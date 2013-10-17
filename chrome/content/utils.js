@@ -1,4 +1,4 @@
-﻿/* ***** BEGIN LICENSE BLOCK *****
+/* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * The contents of this file are subject to the Mozilla Public License Version
@@ -26,6 +26,10 @@
  *   Dietrich Ayala <dietrich@mozilla.com>
  *   Marco Bonardo <mak77@bonardo.net>
  *
+ * Updated by:
+ *   Gerd Röthig <gerd.roethig@gmail.com>
+ *   Last Edit: 12-SEP-2013
+ *      
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
  * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
@@ -48,7 +52,8 @@ try {
 
 var SyncPlacesUtils = {
 	SP_TAG: "syncplaces/tag",
-
+  
+ 
   /**
    * Import bookmarks from a JSON string in UTF-8 format
    */
@@ -427,11 +432,15 @@ var SyncPlacesUtils = {
 													 mergeUnsorted, mergeDeletes, syncFolderID, lastSend, receivedIds, useTimestamps, oldNodes, missingNodes, debug,
 													 containerTitle, stats, aGrandParentId)
 	{
-		var folderIdMap = [];
+
+    var folderIdMap = [];
 		var searchIds = [];
 		var id = -1;
 		var update = false;	//set to true if updating an existing item
+    
 		if (!index) index = 0;
+
+
 		switch (node.type) {
 			case PlacesUtils.TYPE_X_MOZ_PLACE_CONTAINER:
 				//Tags (which are done last)
@@ -506,9 +515,11 @@ var SyncPlacesUtils = {
 							if (update) stats.updated.livemarks++;
 							else stats.added.livemarks++;
 						}
-						id = PlacesUtils.livemarks.createLivemarkFolderOnly(container, node.title, siteURI, feedURI, index);
-						receivedIds.push(id);
-						
+            
+  //          PlacesUtils.livemarks.createLivemarkFolderOnly has been removed by Mozilla
+  //          therefore disabled change by GR (Mozilla does not really want Livemarks to be used anymore)
+	//					id = PlacesUtils.livemarks.createLivemarkFolderOnly(container, node.title, siteURI, feedURI, index);
+  //	  					receivedIds.push(id);
 					}
 				}
 
