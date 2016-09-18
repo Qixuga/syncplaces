@@ -8,7 +8,7 @@
     <em:version>5.2.7</em:version>
 
     <em:type>2</em:type>
-    <em:homepageURL>http://home.arcor.de/dac324/firefox/syncplaces/pages/index.html</em:homepageURL>
+    <em:homepageURL>https://github.com/Qixuga/syncplaces</em:homepageURL>
     <em:iconURL>chrome://syncplaces/skin/icon48.png</em:iconURL>
     <em:icon64URL>chrome://syncplaces/skin/icon64.png</em:icon64URL>
     <em:optionsURL>chrome://syncplaces/content/options.xul</em:optionsURL>
@@ -16,6 +16,7 @@
     <em:creator>Andy Halford</em:creator>
     <em:contributor>Chris Veness</em:contributor>
     <em:contributor>Gerd Roethig</em:contributor>
+    <em:contributor>Frank Kirchner</em:contributor>
     <em:translator>Christophe Ribot (fr)</em:translator>
     <em:translator>Delphine (fr)</em:translator>
     <em:translator>nico@nc (fr)</em:translator>
