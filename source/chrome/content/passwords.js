@@ -52,7 +52,7 @@ var SyncPlacesPasswords = {
 			if (!SyncPlacesOptions.getPassword(SyncPlacesOptions.passwordUser, false)) {
 				SyncPlaces.timedStatus('missing_password', true, true);
 				SyncPlacesOptions.alert2(null, 'missing_password', null, false,
-						"http://www.andyhalford.com/syncplaces/advanced.html#encryption");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#encryption");
 				success = false;
 			}
 			else {
@@ -132,7 +132,7 @@ var SyncPlacesPasswords = {
 			if (!SyncPlacesOptions.getPassword(SyncPlacesOptions.passwordUser, false)) {
 				SyncPlaces.timedStatus('missing_password', true, true);
 				SyncPlacesOptions.alert2(null, 'missing_password', null, false,
-						"http://www.andyhalford.com/syncplaces/advanced.html#encryption");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#encryption");
 				return;
 			}
 

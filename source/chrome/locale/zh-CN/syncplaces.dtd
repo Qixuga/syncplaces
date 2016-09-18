@@ -12,8 +12,8 @@
 <!ENTITY remote "远端">
 <!ENTITY send_button "发送书签/密码">
 <!ENTITY send_tooltip "发送书签/密码到服务器">
-<!ENTITY if_changes "如果发生修改">
-<!ENTITY if_changes_tooltip "本地数据发生改变时发送">
+<!ENTITY if_changes "如果发生更改">
+<!ENTITY if_changes_tooltip "本地数据发生更改时发送">
 <!ENTITY immediately "立即">
 <!ENTITY immediately_tooltip "立即发送所有书签/密码">
 <!ENTITY receive_button "接收书签/密码">
@@ -190,6 +190,12 @@
 <!ENTITY pw_new "保留新密码">
 <!ENTITY dialog_title "提示">
 <!ENTITY more_info "更多信息">
+<!ENTITY logs "日志">
+<!ENTITY refresh "刷新">
+<!ENTITY open "打开">
+<!ENTITY delete "删除">
+<!ENTITY delete_all "全部删除">
+<!ENTITY max_logs "保留的日志数">
 <!ENTITY wiz_reset_title "恢复默认">
 <!ENTITY wiz_reset "您想要恢复所有设置为默认状态吗？这么做将删除您当前的所有设置。">
 <!ENTITY wiz_yes "是">

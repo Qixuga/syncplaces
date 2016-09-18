@@ -1,7 +1,8 @@
 syncplaces
 ==========
 
-syncplaces - Firefox bookmark and accessdata syncronisation with own ftp/http server support
+syncplaces - Firefox Extension with bookmark and accessdata syncronisation, usw your own ftp/http(s) server.
+Thanks to Andy Halford for development. The project from Andy is discontinued.
 
 
 Subfolder:

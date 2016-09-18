@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Behåll nytt">
 <!ENTITY dialog_title "Avisering">
 <!ENTITY more_info "Mer information">
+<!ENTITY logs "Logs">
+<!ENTITY refresh "Refresh">
+<!ENTITY open "Open">
+<!ENTITY delete "Delete">
+<!ENTITY delete_all "Delete All">
+<!ENTITY max_logs "Number of logs to keep">
 <!ENTITY wiz_reset_title "Återställ till standard">
 <!ENTITY wiz_reset "Vill du återställa allt till standardvärdena? Det kommer att ta bort alla dina befintliga inställningar.">
 <!ENTITY wiz_yes "Ja">

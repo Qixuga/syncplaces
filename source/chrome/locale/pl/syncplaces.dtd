@@ -16,11 +16,11 @@
 <!ENTITY if_changes_tooltip "Wyślij, jeśli dokonano zmian lokalnie">
 <!ENTITY immediately "Natychmiast">
 <!ENTITY immediately_tooltip "Natychmiast wysyła wszystkie zakładki/hasła">
-<!ENTITY receive_button "Odbierz zakładki">
-<!ENTITY receive_tooltip "Pobiera kopię zamiast odbierać zakładki z serwera">
+<!ENTITY receive_button "Odbierz">
+<!ENTITY receive_tooltip "Pobiera kopię zamiast odbierać zakładki/hasła z serwera">
 <!ENTITY local "Lokalne">
 <!ENTITY backup_button "Kopia zapasowa">
-<!ENTITY backup_tooltip "Tworzy kopię lokalną pliku JSON">
+<!ENTITY backup_tooltip "Tworzy kopię lokalną">
 <!ENTITY bookmarks "Zakładki">
 <!ENTITY passwords "Hasła">
 <!ENTITY both "Oba">
@@ -58,29 +58,29 @@
 <!ENTITY lastreceived_tooltip "Data odebrania ostatnich zmian">
 <!ENTITY sync_type "Synchronizuj:">
 <!ENTITY sync_json "JSON">
-<!ENTITY syncjson_tooltip "Synchronizuje na plik JSON (zalecane)">
+<!ENTITY syncjson_tooltip "Synchronizuje plik JSON (zalecane)">
 <!ENTITY sync_xbel "XBEL">
-<!ENTITY syncxbel_tooltip "Synchronizuje na plik XBEL">
+<!ENTITY syncxbel_tooltip "Synchronizuje plik XBEL">
 <!ENTITY sync_passwords "Hasła">
 <!ENTITY syncpasswords_tooltip "Synchronizuj hasła">
 <!ENTITY send_html "Wysyłaj jako HTML">
 <!ENTITY sendhtml_tooltip "Wysyła w postaci HTML">
 <!ENTITY send_xbel "Wyślij XBEL">
-<!ENTITY sendxbel_tooltip "Wysyła wersje XBEL">
-<!ENTITY xbelpath_tooltip "Ścieżka dostępu do pliku XBEL na serwerze np.:/bookmarks/syncplaces.xml">
+<!ENTITY sendxbel_tooltip "Wysyła wersję XBEL">
+<!ENTITY xbelpath_tooltip "Ścieżka dostępu do pliku XBEL na serwerze, np.:/bookmarks/syncplaces.xml">
 <!ENTITY passwordpath "Ścieżka do pliku haseł:">
-<!ENTITY passwordpath_tooltip "Ścieżka do pliku haseł na serwerze np. /bookmarks/passwords">
+<!ENTITY passwordpath_tooltip "Ścieżka do pliku haseł na serwerze, np. /bookmarks/passwords">
 <!ENTITY password_password "Hasło:">
 <!ENTITY encrypt_json "Szyfruj JSON">
 <!ENTITY encryptjson_tooltip "W celu zwiększenia bezpieczeństwa szyfruje plik JSON">
 <!ENTITY encryptpassword_tooltip "Hasło używane do szyfrowania">
-<!ENTITY send_gzip_json "Wyślij/Odbierz skompresowany JSON">
+<!ENTITY send_gzip_json "Wyślij/Odbierz skompresowany plik JSON">
 <!ENTITY gzipjson_tooltip "Kompresuje plik JSON dla szybszych transferów">
 <!ENTITY small_xbel "Eksportuj/Wyślij mały XBEL">
-<!ENTITY smallxbel_tooltip "Eksportuje/Wysyła mały plik XBEL">
-<!ENTITY auto_sort "Sortuj przed wysłaniem">
-<!ENTITY autosort_tooltip "Automatycznie sortuje zakładki przed ich wysłaniem">
-<!ENTITY merge "Dołączaj odebrane zakładki">
+<!ENTITY smallxbel_tooltip "Eksportuje/wysyła mały plik XBEL">
+<!ENTITY auto_sort "Sortuj automatycznie">
+<!ENTITY autosort_tooltip "Automatycznie sortuje zakładki po synchronizacji">
+<!ENTITY merge "Dołącz">
 <!ENTITY receive_merge_tooltip "Dołącza zmiany dokonane na serwerze">
 <!ENTITY overwrite "Zastąp">
 <!ENTITY receive_overwrite_tooltip "Zastępuje zakładki/hasła elementami z serwera">
@@ -107,24 +107,24 @@
 <!ENTITY autoreceive_tooltip "Odbiera zakładki automatycznie, gdy jest uruchamiana przeglądarka">
 <!ENTITY auto_receive_notify "Pozostawiaj okno dialogowe otwarte">
 <!ENTITY autoreceivenotify_tooltip "Okno dialogowe pozostaje otwarte po zakończeniu operacji">
-<!ENTITY auto_send "Wysyłaj podczas zamykania">
-<!ENTITY autosend_tooltip "Zakładki będą automatycznie wysyłane, gdy jest zamykana przeglądarka">
-<!ENTITY auto_close "Zamykaj automatycznie po zakończeniu odbierania/wysyłania">
-<!ENTITY autoclose_tooltip "Zamyka automatycznie okno dialogowe po ręcznym odebraniu/wysłaniu">
+<!ENTITY auto_send "Synchronizuj podczas zamykania">
+<!ENTITY autosend_tooltip "Nastąpi automatyczna synchronizacja podczas zamykania przeglądarki">
+<!ENTITY auto_close "Zamykaj automatycznie informacje o błędach">
+<!ENTITY autoclose_tooltip "Zamyka automatycznie okna z informacjami o błędach">
 <!ENTITY auto_close_delay "s">
-<!ENTITY autodelay_tooltip "Czas przez jaki pozostaje otwarte">
+<!ENTITY autodelay_tooltip "Czas, przez jaki pozostaje otwarte">
 <!ENTITY regular_transfer "Synchronizuj automatycznie w regularnych odstępach czasowych">
-<!ENTITY regulartransfer_tooltip "Zamiast używania opcji „Wysyłaj bezpiecznie”, wykonuje synchronizację w regularnych odstępach czasowych">
+<!ENTITY regulartransfer_tooltip "Wykonuje synchronizację w regularnych odstępach czasowych">
 <!ENTITY transfer_interval "Odstęp czasowy">
 <!ENTITY transferinterval_tooltip "Czas pomiędzy kolejnymi synchronizacjami">
 <!ENTITY seconds "s">
 <!ENTITY minutes "min">
 <!ENTITY hours "godz.">
 <!ENTITY timed_transfer "Synchronizuj o ustalonym czasie">
-<!ENTITY timedtransfer_tooltip "W ustalonym czasie wykonuje odbiór i wysyłanie używając opcji&quot;Wyślij bezpiecznie&quot;">
+<!ENTITY timedtransfer_tooltip "Wykonuje synchronizację w ustalonym czasie">
 <!ENTITY transfer_time "Czas synchronizacji">
 <!ENTITY send_all "Synchronizuj wszystkie miejsca/zakładki">
-<!ENTITY sendall_tooltip "Synchronizuje wszystkie miejsca/zakładki">
+<!ENTITY sendall_tooltip "Synchronizuje całe drzewo miejsc/zakładek">
 <!ENTITY skip_name "Zezwalaj na różne nazwy podczas odbierania">
 <!ENTITY skipname_tooltip "Folder odbiorczy może mieć różne nazwy">
 <!ENTITY selectfolder_button "Wybierz folder">
@@ -136,9 +136,9 @@
 <!ENTITY b192 "192">
 <!ENTITY b256 "256">
 <!ENTITY show_bm "Menu Zakładki">
-<!ENTITY showbm_tooltip "Wyświetlaj opcje w menu Zakładki">
+<!ENTITY showbm_tooltip "Wyświetlaj elementy SyncPlaces w menu Zakładki">
 <!ENTITY show_tools "Menu Narzędzia">
-<!ENTITY showtools_tooltip "Wyświetlaj opcje w menu Narzędzia">
+<!ENTITY showtools_tooltip "Wyświetlaj elementy SyncPlaces w menu Narzędzia">
 <!ENTITY backupfolder_button "Folder kopii zapasowych">
 <!ENTITY backupfolder_tooltip "Wybierz folder używany do przetrzymywania kopii zapasowych">
 <!ENTITY workarounds_tab "Obejścia">
@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Zachowaj nowe">
 <!ENTITY dialog_title "Ostrzeżenie">
 <!ENTITY more_info "Więcej informacji">
+<!ENTITY logs "Dziennik zdarzeń">
+<!ENTITY refresh "Odśwież">
+<!ENTITY open "Otwórz">
+<!ENTITY delete "Usuń">
+<!ENTITY delete_all "Usuń wszystko">
+<!ENTITY max_logs "Liczba wpisów dziennika do pozostawienia">
 <!ENTITY wiz_reset_title "Przywróć domyślne">
 <!ENTITY wiz_reset "Czy chcesz przywrócić wszystkie domyślne ustawienia? Wszystkie dotychczasowe ustawienia zostaną usunięte.">
 <!ENTITY wiz_yes "Tak">

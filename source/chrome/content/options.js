@@ -46,7 +46,8 @@ var SyncPlacesOptions = {
 	encryptUser: 'syncplaces-encryption',
 	passwordUser: 'syncplaces-password',
 	prefsFile: 'syncplaces_prefs.json',
-	version: "5.1.2",
+  logs: [],
+	version: "5.2.3",
 
 	onActionLoad: function() {
 		this.lastTransferTimes(true);
@@ -78,6 +79,7 @@ var SyncPlacesOptions = {
 		this.togglePasswords(false);
 		this.checkValues();
 		this.checkSortPlaces(true);
+		this.loadLogs();
 
 		//Strip out any embedded userid/password from the host (for ftp only)
 		if (SyncPlacesOptions.prefs.getCharPref("protocol") == "ftp") {
@@ -108,7 +110,7 @@ var SyncPlacesOptions = {
 		//Display the how to use help page if haven't done so before
 		var firstrun = this.prefs.getBoolPref('firstuse');
 		if (firstrun && thisBrowser) {
-			var tab = thisBrowser.addTab("http://www.andyhalford.com/syncplaces/use.html");
+			var tab = thisBrowser.addTab("http://home.arcor.de/dac324/firefox/syncplaces/pages/use.html");
 			thisBrowser.selectedTab = tab;
 			this.prefs.setBoolPref('firstuse', false);
 		}
@@ -300,7 +302,7 @@ var SyncPlacesOptions = {
 			else if (migrateAlgorithm == 'receive' || migrateAlgorithm == 'load') {
 				if (password && password != oldPassword) {
 					this.alert2(null, 'password_conflict', null, timeout,
-										"http://www.andyhalford.com/syncplaces/migration.html#passwords");
+										"http://home.arcor.de/dac324/firefox/syncplaces/pages/migration.html#passwords");
 				}
 				if (!password) password = oldPassword;
 			}
@@ -437,6 +439,9 @@ var SyncPlacesOptions = {
 		//Check the range values are correct
 		this.checkValues();
 
+		//Reset the next log no
+		this.resetLogNo();
+
 		//Save the prefs
 		this.savePrefs(true);
 
@@ -448,6 +453,15 @@ var SyncPlacesOptions = {
 													 .getService(this.Ci.nsIAppStartup)
 													 .quit(this.Ci.nsIAppStartup.eAttemptQuit);
 		return true;
+	},
+
+	//If next log number is greater than the limit then reset it to zero
+	resetLogNo: function() {
+		var nextLogNo = SyncPlacesOptions.prefs.getIntPref('next_log_no') + 1;
+		if (nextLogNo > SyncPlacesOptions.prefs.getCharPref('max_log_no')) {
+			nextLogNo = 0;
+			SyncPlacesOptions.prefs.setIntPref('next_log_no', nextLogNo);
+		}
 	},
 
 	updateStatusBar: function() {
@@ -504,7 +518,7 @@ var SyncPlacesOptions = {
 				os = "Darwin";
 			}
 
-			var link = "http://www.andyhalford.com/syncplaces/sync.html";
+			var link = "http://home.arcor.de/dac324/firefox/syncplaces/pages/sync.html";
 			if (document.getElementById("protocol").selectedItem.id == 'file') {
 				if (value.match(/^\\\\/)) {
 					if (displayAlert) {
@@ -576,7 +590,7 @@ var SyncPlacesOptions = {
 		var value =	this.trim(document.getElementById("password_password").value);
 		if (!value) {
 			this.alert2(null, 'missing_password', null, true,
-									"http://www.andyhalford.com/syncplaces/advanced.html#encryption");
+									"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#encryption");
 			document.getElementById('sync_passwords').checked = false;
 			document.getElementById('encrypt').checked = false;
 		}
@@ -588,7 +602,7 @@ var SyncPlacesOptions = {
 		var value =	this.trim(tags.value);
 		if (!this.realCheckTags(value) && displayAlert)
 			this.alert2(null, 'bad_tags', null, true,
-								 "http://www.andyhalford.com/syncplaces/advanced.html#xbel");
+								 "http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#xbel");
 	},
 
 	//Real checkTags function is here (for non-dialog use)
@@ -663,7 +677,7 @@ var SyncPlacesOptions = {
 											 			(extraText ? ": " + extraText : "");
 
 		var link = window.arguments[0].inn.link;
-		link = link ? link : "http://www.andyhalford.com/syncplaces/support.html#exceptions";
+		link = link ? link : "http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#exceptions";
 		document.getElementById("link").href=link;
 
 		var confirm = window.arguments[0].inn.confirm;
@@ -731,7 +745,7 @@ var SyncPlacesOptions = {
 				this.toggleSendNotify();
 				this.toggleReceiveNotify();
 				this.alert2(null, 'restart_firefox', null, false,
-						"http://www.andyhalford.com/syncplaces/automation.html");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/automation.html");
 			}
 		}
 		document.getElementById("transfer_interval").disabled = !regularTransfer;
@@ -746,7 +760,7 @@ var SyncPlacesOptions = {
 			//Popup message to reboot Firefox when first choose it
 			if (!this.prefs.getBoolPref("timed_transfer")) {
 				this.alert2(null, 'restart_firefox', null, false,
-						"http://www.andyhalford.com/syncplaces/automation.html");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/automation.html");
 			}
 		}
 		document.getElementById("transfer_time").disabled = !timedTransfer;
@@ -1008,6 +1022,7 @@ var SyncPlacesOptions = {
 							prefList[i] == "sync_type" ||
 							prefList[i] == "transfer_time" ||
 							prefList[i] == "transfer_interval" ||
+							prefList[i] == "max_log_no" ||
 							prefList[i] == "delay")
 					{
 						preferences[prefList[i]].value = this.prefs.getCharPref(prefList[i]);
@@ -1070,7 +1085,7 @@ var SyncPlacesOptions = {
 			var name = preferences.current_profile_name.value;
 			if (!name) {
 				this.alert2(null, 'missing_name', null, true,
-						"http://www.andyhalford.com/syncplaces/advanced.html#profiles");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#profiles");
 				return;
 			}
 
@@ -1158,6 +1173,7 @@ var SyncPlacesOptions = {
 								prefList[i] == "sync_type" ||
 								prefList[i] == "transfer_time" ||
 								prefList[i] == "transfer_interval" ||
+								prefList[i] == "max_log_no" ||
 								prefList[i] == "delay")
 						{
 							this.prefs.setCharPref(prefList[i], preferences[prefList[i]].value);
@@ -1234,7 +1250,7 @@ var SyncPlacesOptions = {
 		var menuItems = menuList.firstChild.childNodes;
 		if (menuItems.length == 1) {
 			this.alert2(null, 'cant_delete_last_one', null, true,
-						"http://www.andyhalford.com/syncplaces/advanced.html#profiles");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#profiles");
 			return;
 		}
 		var currentIndex = menuList.selectedIndex;
@@ -1321,7 +1337,7 @@ var SyncPlacesOptions = {
 		//Must enter something
 		if (!newName) {
 			this.alert2(null, 'missing_name', null, true,
-						"http://www.andyhalford.com/syncplaces/advanced.html#profiles");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#profiles");
 		}
 		//Check for duplicates
 		else {
@@ -1329,7 +1345,7 @@ var SyncPlacesOptions = {
 			for (var i=0; i<menuItems.length; i++) {
 				if (newName == menuItems[i].label) {
 					this.alert2(null, 'duplicate_name', null, true,
-						"http://www.andyhalford.com/syncplaces/advanced.html#profiles");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#profiles");
 					newName = null;
 					break;
 				}
@@ -1396,5 +1412,125 @@ var SyncPlacesOptions = {
 
 		//Update the preference lists
 		this.saveProfilePrefs(menuList);
+	},
+
+	//Read in the list of logs and populate the list on screen
+	loadLogs: function() {
+		function sortByDate(a, b) {
+			//Sort by date
+			if (a.lastModifiedTime < b.lastModifiedTime)
+				return -1;
+			else if (a.lastModifiedTime > b.lastModifiedTime)
+				return 1;
+			else return 0;
+		}
+
+		this.logs = [];
+		var logFilePath = SyncPlacesIO.getDefaultFolder();
+		logFilePath.append("logs");
+		
+		//Get the list of logs
+		if (logFilePath.exists() && logFilePath.isDirectory()) {
+			var files = logFilePath.directoryEntries;
+			while (files.hasMoreElements()) {  
+				var file = files.getNext().QueryInterface(Components.interfaces.nsIFile);
+				if (file.isFile()) {
+					this.logs.push(file);
+				}
+			}
+			this.logs.sort(sortByDate);
+		}
+
+		//Enable/disable buttons as appropriate
+		var noFiles = this.logs.length == 0;
+		document.getElementById("open_log").disabled = noFiles;
+		document.getElementById("delete_log").disabled = noFiles;
+		document.getElementById("deleteall_logs").disabled = noFiles;
+		
+		//Clear the current list
+		var displayList = document.getElementById("logs");
+		if (displayList.itemCount) {
+			for (var i=displayList.itemCount-1; i>-1; i--) {
+				displayList.removeItemAt(i);
+			}
+		}
+		
+		//Nothing to display
+		if (noFiles) return;
+
+		//Display list of timestamps
+		for (var i=0; i<this.logs.length; i++) {
+			displayList.appendItem(new Date(this.logs[i].lastModifiedTime).toLocaleString());
+		}
+	},
+	
+	openLog: function() {
+		var displayList = document.getElementById("logs");
+		var selectedItems = displayList.selectedItems;
+
+		//Display details of the selected item
+		if (selectedItems && selectedItems.length) {
+			var index = displayList.getIndexOfItem(selectedItems[selectedItems.length-1]);
+			var log = this.logs[index];
+
+			var params = {inn:{log:log}, out:null};
+			window.openDialog('chrome://syncplaces/content/log.xul', '_blank',
+										 		'chrome,modal,resizable,centerscreen', params);
+		}
+	},
+	
+	onLogLoad: function() {
+		if (window.arguments) {
+			document.getElementById("text").value = SyncPlacesIO.readFile(window.arguments[0].inn.log);
+		}
+	},
+	
+	//Delete selected logs
+	deleteLog: function() {
+		var displayList = document.getElementById("logs");
+		var selectedItems = displayList.selectedItems;
+
+		//Delete the selected item
+		if (selectedItems && selectedItems.length) {
+
+			//Loop backwards otherwise displayList index will be wrong
+			//as you remove things from it
+			for (var i=selectedItems.length-1; i>-1; i--) {
+				index = displayList.getIndexOfItem(selectedItems[i]);
+				var log = this.logs[index];
+
+				//Delete the physical log
+				try {
+					if (log.exists()) log.remove(false);
+				} catch(e) {
+				}
+
+				//Remove from the list and display
+				this.logs.splice(index, 1);
+				displayList.removeItemAt(index);
+			}
+		}
+	},
+	
+	//Delete all logs
+	deleteLogs: function() {
+		var displayList = document.getElementById("logs");
+		if (this.logs.length) {
+			//Loop backwards otherwise displayList index will be wrong
+			//as you remove things from it
+			for (var i=this.logs.length-1; i>-1; i--) {
+				var log = this.logs[i];
+
+				//Delete the physical log
+				try {
+					if (log.exists()) log.remove(false);
+				} catch(e) {
+				}
+
+				//Remove from the list and display
+				this.logs.splice(i, 1);
+				displayList.removeItemAt(i);
+			}
+		}
 	}
 }

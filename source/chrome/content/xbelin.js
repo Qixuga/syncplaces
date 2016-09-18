@@ -380,7 +380,7 @@ function SyncPlacesXBELIn(filePath, timeout) {
 	var dom = domParser.parseFromString(bookmarks, "text/xml");
 	if (!validXbel(dom)) {
 		SyncPlacesOptions.alert2(null, 'invalid_xml', null, timeout,
-						"http://www.andyhalford.com/syncplaces/support.html#bookmarks");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#bookmarks");
 		return false;
 	}
 
@@ -548,7 +548,7 @@ function SyncPlacesXBELIn(filePath, timeout) {
 		}
 		else {
 			SyncPlacesOptions.alert2(null, 'nothing_to_import', null, timeout,
-						"http://www.andyhalford.com/syncplaces/support.html#bookmarks");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#bookmarks");
 			return false;
 		}
 

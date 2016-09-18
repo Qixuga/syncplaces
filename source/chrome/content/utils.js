@@ -432,7 +432,7 @@ var SyncPlacesUtils = {
 													 mergeUnsorted, mergeDeletes, syncFolderID, lastSend, receivedIds, useTimestamps, oldNodes, missingNodes, debug,
 													 containerTitle, stats, aGrandParentId)
 	{
-		var folderIdMap = [];
+    var folderIdMap = [];
 		var searchIds = [];
 		var id = -1;
 		var update = false;	//set to true if updating an existing item
@@ -478,7 +478,6 @@ var SyncPlacesUtils = {
 					}, this);
 
 					if (feedURI) {
-					
 						if (merge) {
 							var existingID = SyncPlacesBookmarks.existingLivemark(container, node.title, feedURI);
 							//If exists then deal with duplicates
@@ -858,8 +857,10 @@ var SyncPlacesUtils = {
 
       // last character-set
       var uri = PlacesUtils._uri(aPlacesNode.uri);
-      var lastCharset = PlacesUtils.history.getCharsetForURI(uri);
-      if (lastCharset)
+      // changed by GR
+      // PlacesUtils.history.getCharsetForURI is removed
+      var lastCharset = PlacesUtils.getCharsetForURI(uri);
+        if (lastCharset)
         aJSNode.charset = lastCharset;
     }
 

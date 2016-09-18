@@ -40,7 +40,7 @@
 
 <dialog id="syncplacesOptions"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        title="&sp_title; 5.1.2"
+        title="&sp_title; 5.2.3"
         buttons="accept,cancel"
         onload="SyncPlacesOptions.onDialogLoad();"
         ondialogaccept="return SyncPlacesOptions.onDialogAccept();"
@@ -236,12 +236,42 @@
 			<tabpanel orient="vertical">
 				<tabbox>
 					<tabs id="mainTabs">
+						<tab label="&logs;" id="Logs"/>
 						<tab label="&profiles;" id="Profiles"/>
 						<tab label="&xbel_tab;" id="XBEL"/>
 						<tab label="&encryption_tab;" id="EncryptionTab"/>
 						<tab label="&workarounds_tab;" id="WorkaroundsTab"/>
 					</tabs>
 					<tabpanels>
+						<tabpanel orient="vertical">
+							<grid flex="1">
+								<columns align="center">
+									<column flex="1" />
+								</columns>
+								<rows>
+									<row align="center">
+										<hbox align="center">
+											<label control="max_logs" value="&max_logs;"/>
+											<textbox id="max_log_no" size="3" maxlength="3" type="number" min="1" max="999" />
+										</hbox>
+									</row>
+									<row flex="1">
+										<listbox id="logs" rows="5" seltype="multiple" ondblclick="SyncPlacesOptions.openLog();" />
+									</row>
+									<row align="center">
+										<vbox align ="center">
+											<separator class="thin"/>
+											<hbox>
+												<button id="refresh_log" label="&refresh;" oncommand="SyncPlacesOptions.loadLogs();" />
+												<button id="open_log" label="&open;" oncommand="SyncPlacesOptions.openLog();" />
+												<button id="delete_log" label="&delete;" oncommand="SyncPlacesOptions.deleteLog();" />
+												<button id="deleteall_logs" label="&delete_all;" oncommand="SyncPlacesOptions.deleteLogs();" />
+											</hbox>
+										</vbox>
+									</row>
+								</rows>
+							</grid>
+						</tabpanel>
 						<tabpanel orient="vertical">
 						  <groupbox>
 						  	<hbox align="center">

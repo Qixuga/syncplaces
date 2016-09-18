@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Conserver le nouveau mot de passe">
 <!ENTITY dialog_title "Alerte">
 <!ENTITY more_info "Plus d'information">
+<!ENTITY logs "Logs">
+<!ENTITY refresh "Refresh">
+<!ENTITY open "Open">
+<!ENTITY delete "Delete">
+<!ENTITY delete_all "Delete All">
+<!ENTITY max_logs "Number of logs to keep">
 <!ENTITY wiz_reset_title "Revenir aux paramètres par défaut">
 <!ENTITY wiz_reset "Souhaitez-vous vraiment revenir aux choix par défait ? Ceci effacera tous vos réglages actuels.">
 <!ENTITY wiz_yes "Oui">

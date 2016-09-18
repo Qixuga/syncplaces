@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Manter a nova">
 <!ENTITY dialog_title "Atenção">
 <!ENTITY more_info "Mais informação">
+<!ENTITY logs "Registros">
+<!ENTITY refresh "Atualizar">
+<!ENTITY open "Abrir">
+<!ENTITY delete "Apagar">
+<!ENTITY delete_all "Apagar Tudo">
+<!ENTITY max_logs "Número de registros a manter">
 <!ENTITY wiz_reset_title "Voltar para o padrão">
 <!ENTITY wiz_reset "Você quer redefinir tudo para os valores padrões? Isso irá apagar todas as suas configurações existentes.">
 <!ENTITY wiz_yes "Sim">

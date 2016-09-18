@@ -5,16 +5,17 @@
 	<Description about="urn:mozilla:install-manifest">
     <em:id>syncplaces@andyhalford.com</em:id>
     <em:name>SyncPlaces</em:name>
-    <em:version>5.1.2</em:version>
+    <em:version>5.2.3</em:version>
 
     <em:type>2</em:type>
-    <em:homepageURL>http://www.andyhalford.com/syncplaces/index.html</em:homepageURL>
+    <em:homepageURL>http://home.arcor.de/dac324/firefox/syncplaces/pages/index.html</em:homepageURL>
     <em:iconURL>chrome://syncplaces/skin/icon48.png</em:iconURL>
     <em:icon64URL>chrome://syncplaces/skin/icon64.png</em:icon64URL>
     <em:optionsURL>chrome://syncplaces/content/options.xul</em:optionsURL>
 
     <em:creator>Andy Halford</em:creator>
     <em:contributor>Chris Veness</em:contributor>
+    <em:contributor>Gerd Roethig</em:contributor>
     <em:translator>Christophe Ribot (fr)</em:translator>
     <em:translator>Delphine (fr)</em:translator>
     <em:translator>nico@nc (fr)</em:translator>
@@ -46,6 +47,15 @@
 				<em:maxVersion>2.11.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
+    
+    <!--K-Meleon-->
+    <em:targetApplication>
+      <Description>
+        <em:id>{944df56f-c0ec-4d7b-94b6-f625c8cc96ea}</em:id>
+        <em:minVersion>74.0</em:minVersion>
+        <em:maxVersion>78.0</em:maxVersion>
+      </Description>
+    </em:targetApplication>
 
 	</Description>
 </RDF>

@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Behold ny">
 <!ENTITY dialog_title "Advarsel">
 <!ENTITY more_info "Mere information">
+<!ENTITY logs "Logge">
+<!ENTITY refresh "Opdater">
+<!ENTITY open "Åben">
+<!ENTITY delete "Slet">
+<!ENTITY delete_all "Slet alle">
+<!ENTITY max_logs "Antal af logge som bevares">
 <!ENTITY wiz_reset_title "Nulstil til standard">
 <!ENTITY wiz_reset "Ønsker du at nulstille alt til standard? Dette vil slette alle dine eksisterende indstillinger.">
 <!ENTITY wiz_yes "Ja">

@@ -81,7 +81,7 @@ var SyncPlacesSend = {
 			//Check to see if last_send is blank - if so then warning
 			if (SyncPlacesOptions.prefs.getCharPref("lastSend") != 0 ||
 					SyncPlacesOptions.alert2(null, 'first_time', null, false,
-						"http://www.andyhalford.com/syncplaces/use.html#tips", true))
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/use.html#tips", true))
 			{
 			SyncPlacesReceive.receive(startupShutdown, checkSendSafe);
 			}
@@ -106,7 +106,7 @@ var SyncPlacesSend = {
 		if (!SyncPlacesOptions.getPassword(SyncPlacesOptions.passwordUser, false)) {
 			SyncPlaces.timedStatus('missing_ppassword', false, true);
 			SyncPlacesOptions.alert2(null, 'missing_ppassword', null, false,
-									"http://www.andyhalford.com/syncplaces/advanced.html#encryption");
+									"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#encryption");
 			return;
 		}
 
@@ -361,7 +361,7 @@ var SyncPlacesSend = {
 						if (type == SyncPlaces.PWD) message = 'cant_send_passwords';
 						else if (type == SyncPlaces.HASH || type == SyncPlaces.PWD_HASH) message = 'cant_send_hash';
 						SyncPlacesOptions.alert2(null, message, resCode, false,
-									"http://www.andyhalford.com/syncplaces/support.html#sending");
+									"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#sending");
 						break;
 				}
 			} catch(exception) {

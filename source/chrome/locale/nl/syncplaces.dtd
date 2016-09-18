@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Bewaar nieuwe">
 <!ENTITY dialog_title "Let op">
 <!ENTITY more_info "Meer informatie">
+<!ENTITY logs "Logs">
+<!ENTITY refresh "Verversen">
+<!ENTITY open "Open">
+<!ENTITY delete "Verwijderen">
+<!ENTITY delete_all "Alles verwijderen">
+<!ENTITY max_logs "Aantal logs te bewaren">
 <!ENTITY wiz_reset_title "Zet terug naar oorspronkelijke waarden">
 <!ENTITY wiz_reset "Wil je alles terugzetten naar de oorspronkelijke waarden? Zo ja, dan gaan al je instellingen verloren.">
 <!ENTITY wiz_yes "Ja">

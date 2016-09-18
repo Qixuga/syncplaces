@@ -258,7 +258,7 @@ var SyncPlacesIO = {
 		if (!this.logFilePath) this.createLog();
 		this.saveFilePath(this.logFilePath, new Date().toLocaleString() + " " + data + "\n", false, true);
 	},
-  
+  //added by GR  
   //displays the path of a given nsURI object
   showURIpath: function (anURI) {
     try {
@@ -268,6 +268,7 @@ var SyncPlacesIO = {
     }
        return bfp.path;
   },
+  //added by GR
   //displays the host and path of a given nsURI object
   showURI: function (anURI) {
     var result="";

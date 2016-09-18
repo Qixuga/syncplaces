@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Mantener la nueva">
 <!ENTITY dialog_title "Aviso">
 <!ENTITY more_info "Más información">
+<!ENTITY logs "Logs">
+<!ENTITY refresh "Refresh">
+<!ENTITY open "Open">
+<!ENTITY delete "Delete">
+<!ENTITY delete_all "Delete All">
+<!ENTITY max_logs "Number of logs to keep">
 <!ENTITY wiz_reset_title "Volver a los valores por defecto">
 <!ENTITY wiz_reset "¿Quiere restaurar todo a los valores por defecto? Si lo hace, borrará todos sus ajustes existentes.">
 <!ENTITY wiz_yes "Sí">

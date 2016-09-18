@@ -151,7 +151,7 @@ var SyncPlacesReceive = {
 		{
 			SyncPlaces.timedStatus('missing_ppassword', false, true);
 			SyncPlacesOptions.alert2(null, 'missing_ppassword', null, false,
-						"http://www.andyhalford.com/syncplaces/advanced.html#encryption");
+						"http://home.arcor.de/dac324/firefox/syncplaces/pages/advanced.html#encryption");
 			return;
 		}
 
@@ -224,7 +224,7 @@ var SyncPlacesReceive = {
 		var hash = SyncPlaces.computeHash(passwords);
 		if (this.pwdHash && this.pwdHash != hash) {
 			SyncPlacesOptions.alert2(null, 'invalid_passwords', null, false,
-									"http://www.andyhalford.com/syncplaces/support.html#receiving");
+									"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#receiving");
 			return;
 		}
 
@@ -362,7 +362,7 @@ var SyncPlacesReceive = {
 						default:
 							errorMessage = 'no_file_found';
 							SyncPlacesOptions.alert2(null, errorMessage, resCode, false,
-									"http://www.andyhalford.com/syncplaces/support.html#receiving");
+									"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#receiving");
 							break;
 					}
 					//If error then abort
@@ -492,7 +492,7 @@ SyncPlacesIO.log("this.bmsHash: "+ this.bmsHash);
 SyncPlacesIO.log("SyncPlaces.computeHash: "+ hash);
 		if (this.bmsHash && this.bmsHash != hash) {
 			SyncPlacesOptions.alert2(null, 'invalid_bookmarks', null, false,
-									"http://www.andyhalford.com/syncplaces/support.html#receiving");
+									"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#receiving");
 			return;
 		}
 

@@ -190,6 +190,12 @@
 <!ENTITY pw_new "Neues Passwort behalten">
 <!ENTITY dialog_title "Hinweis">
 <!ENTITY more_info "Weitere Informationen (engl.)">
+<!ENTITY logs "Protokolle">
+<!ENTITY refresh "Aktualisieren">
+<!ENTITY open "Öffnen">
+<!ENTITY delete "Löschen">
+<!ENTITY delete_all "Alle löschen">
+<!ENTITY max_logs "Anzahl der zu speichernden Protokolle">
 <!ENTITY wiz_reset_title "Standardwerte wiederherstellen">
 <!ENTITY wiz_reset "Möchten Sie wirklich alles auf die Standardwerte zurücksetzen? Dabei werde alle Ihre festgelegten Einstellungen überschrieben.">
 <!ENTITY wiz_yes "Ja">
