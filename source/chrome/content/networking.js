@@ -102,7 +102,7 @@ var SyncPlacesNetworking = {
 				} catch(exception) {
 					SyncPlacesNetworking.running = false;
 					Components.utils.reportError(exception);
-					SyncPlacesIO.log("ERROR 1: "+ exception);
+					SyncPlacesIO.log("ERROR 1: (start ManualReceive) "+ exception);
 				}
 			},
 

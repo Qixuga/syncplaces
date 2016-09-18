@@ -131,8 +131,9 @@ var SyncPlaces = {
 					userid = logins[i].username;
 					password = logins[i].password;
 				}
-			} catch (exception) {
+			} catch (e) {
 //Components.utils.reportError(e);
+      SyncPlacesOptions.alert2(e, 'invalid_bookmarks', "syncplaces.getURI()" , inActions);
 			}
 		}
 
@@ -197,8 +198,8 @@ var SyncPlaces = {
 					if (this.restoreBookmarks(this.xbelJsonFile, fp.file, true, true))
 						this.timedStatus('bookmarks_imported', true, false);
 
-				} catch (exception) {
-					SyncPlacesOptions.alert2(exception, 'cant_import_bookmarks', null, true);
+				} catch (e) {
+					SyncPlacesOptions.alert2(e, 'cant_import_bookmarks', null, true);
 				}
 			}
 		}
@@ -253,18 +254,18 @@ var SyncPlaces = {
 
 			switch(type) {
 				case this.JSON:
-SyncPlacesIO.log("case this.JSON");
+          SyncPlacesIO.log("case this.JSON");
 					if (!SyncPlacesBookmarks.backupJSON(backupFilePath, checkSubFolder, showAlert)) {
-SyncPlacesIO.log("failed to write");
+            SyncPlacesIO.log("failed to write");
 						this.timedStatus('cant_save_bookmarks', showAlert, true);
 						if (showAlert) window.setCursor("auto");
 						return null;
 					}
 					//Save favicons (ignore failures) whenever take a full backup (manual or before receive)
 					if (!checkSubFolder) {
-SyncPlacesIO.log("saving favicons");
+            SyncPlacesIO.log("saving favicons");
 						SyncPlacesBookmarks.saveFavicons();
-SyncPlacesIO.log("saved favicons");
+            SyncPlacesIO.log("saved favicons");
 					}
 					break;
 				case this.HTML:
@@ -276,12 +277,12 @@ SyncPlacesIO.log("saved favicons");
 					break;
 			}
 		} catch (exception) {
-SyncPlacesIO.log("ERROR saveBookmarks: "+ exception+', '+exception.message);
+      SyncPlacesIO.log("ERROR saveBookmarks: "+ exception+', '+exception.message);
 			SyncPlacesOptions.alert2(exception, 'cant_save_bookmarks', null, showAlert);
 			if (showAlert) window.setCursor("auto");
 			return null;
 		}
-SyncPlacesIO.log("showAlert="+showAlert);
+    SyncPlacesIO.log("showAlert="+showAlert);
 
 		if (showAlert) {
 			this.timedStatus('bookmarks_saved', showAlert, false);
@@ -327,7 +328,7 @@ SyncPlacesIO.log("showAlert="+showAlert);
 							SyncPlacesMerge.compare(addsDels);
 						} catch(e) {
 							if (SyncPlacesOptions.prefs.getBoolPref("debug")) {
-								SyncPlacesIO.log("ERROR 10: "+ exception);
+								SyncPlacesIO.log("ERROR 10: "+ e);
 								Components.utils.reportError(e);
 							}
 						}
@@ -372,8 +373,8 @@ SyncPlacesIO.log("showAlert="+showAlert);
 				//Restore any missing favicons
 				SyncPlacesBookmarks.restoreFavicons();
 
-			} catch (exception) {
-				SyncPlacesOptions.alert2(exception, 'invalid_bookmarks', null, inActions);
+			} catch (e) {
+				SyncPlacesOptions.alert2(e, 'invalid_bookmarks', "syncplaces.restoreBookmarks()" , inActions);
 			}
 		}
 
@@ -393,6 +394,18 @@ SyncPlacesIO.log("showAlert="+showAlert);
 		var data = "";
 		if (stats.added) {
 			var added = "";
+			if (stats.addedItems.length) {
+				added += TAB + bundle.GetStringFromName('total_added') + SEP + stats.addedItems.length + LF;
+				for (var i = 0; i < stats.addedItems.length; i++) {
+					var item = stats.addedItems[i];
+					var output = bundle.GetStringFromName('added') + " " + item.type;
+					if (item.title) output = output + "; " + bundle.GetStringFromName('title') + " '" + item.title + "'";
+					if (item.parent) output = output + "; " + bundle.GetStringFromName('parent') + " '" + item.parent + "'";
+					if (item.index) output = output + "; " + bundle.GetStringFromName('index') + " " + (item.index+1);
+					added += TAB + TAB + output + LF;
+				}
+			}
+			else {
 			if (stats.added.folders) {
 				added += TAB + bundle.GetStringFromName('folders_added') + SEP + stats.added.folders + LF;
 			}
@@ -408,29 +421,10 @@ SyncPlacesIO.log("showAlert="+showAlert);
 			if (stats.added.livemarks) {
 				added += TAB + bundle.GetStringFromName('livemarks_added') + SEP + stats.added.livemarks + LF;
 			}
-			if (stats.addedItems.length) {
-				added += TAB + bundle.GetStringFromName('total_added') + SEP + stats.addedItems.length + LF;
-				for (var i = 0; i < stats.addedItems.length; i++) {
-					var item = stats.addedItems[i];
-					var output = bundle.GetStringFromName('added') + " " + item.type;
-					if (item.title) output = output + "; " + bundle.GetStringFromName('title') + " '" + item.title + "'";
-					if (item.parent) output = output + "; " + bundle.GetStringFromName('parent') + " '" + item.parent + "'";
-					if (item.index) output = output + "; " + bundle.GetStringFromName('index') + " '" + (item.index+1);
-					added += TAB + TAB + output + LF;
-				}
 			}
-			if (added) data += LF + added;
+      if (added) data += LF + added;
 
 			var updated = "";
-			if (stats.updated.query) {
-				updated += TAB + bundle.GetStringFromName('queries_updated') + SEP + stats.updated.query + LF;
-			}
-			if (stats.updated.places) {
-				updated += TAB + bundle.GetStringFromName('bookmarks_updated') + SEP + stats.updated.places + LF;
-			}
-			if (stats.updated.livemarks) {
-				updated += TAB + bundle.GetStringFromName('livemarks_updated') + SEP + stats.updated.livemarks + LF;
-			}
 			if (stats.updatedItems.length) {
 				updated += TAB + bundle.GetStringFromName('total_updated') + SEP + stats.updatedItems.length + LF;
 				for (var i = 0; i < stats.updatedItems.length; i++) {
@@ -438,8 +432,19 @@ SyncPlacesIO.log("showAlert="+showAlert);
 					var output = bundle.GetStringFromName('updated') + " " + item.type;
 					if (item.title) output = output + "; " + bundle.GetStringFromName('title') + " '" + item.title + "'";
 					if (item.parent) output = output + "; " + bundle.GetStringFromName('parent') + " '" + item.parent + "'";
-					if (item.index) output = output + "; " + bundle.GetStringFromName('index') + " '" + (item.index+1);
+					if (item.index) output = output + "; " + bundle.GetStringFromName('index') + " " + (item.index+1);
 					updated += TAB + TAB + output + LF;
+				}
+			}
+			else {
+				if (stats.updated.query) {
+					updated += TAB + bundle.GetStringFromName('queries_updated') + SEP + stats.updated.query + LF;
+				}
+				if (stats.updated.places) {
+					updated += TAB + bundle.GetStringFromName('bookmarks_updated') + SEP + stats.updated.places + LF;
+				}
+				if (stats.updated.livemarks) {
+					updated += TAB + bundle.GetStringFromName('livemarks_updated') + SEP + stats.updated.livemarks + LF;
 				}
 			}
 			if (updated) data += LF + updated;

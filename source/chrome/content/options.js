@@ -458,10 +458,19 @@ var SyncPlacesOptions = {
 	//If next log number is greater than the limit then reset it to zero
 	resetLogNo: function() {
 		var nextLogNo = SyncPlacesOptions.prefs.getIntPref('next_log_no') + 1;
-		if (nextLogNo > SyncPlacesOptions.prefs.getCharPref('max_log_no')) {
-			nextLogNo = 0;
-			SyncPlacesOptions.prefs.setIntPref('next_log_no', nextLogNo);
-		}
+		try {
+          if (nextLogNo > SyncPlacesOptions.prefs.getCharPref('max_logs')) {
+              nextLogNo = 0;
+          }
+        }   
+        catch (e) {
+          // Handle non-existing preference (can happen after extension update)
+          SyncPlacesOptions.prefs.setCharPref('max_logs', 99);
+          nextLogNo = 0;
+        } 
+    
+    SyncPlacesOptions.prefs.setIntPref('next_log_no', nextLogNo);
+		
 	},
 
 	updateStatusBar: function() {
@@ -1022,7 +1031,7 @@ var SyncPlacesOptions = {
 							prefList[i] == "sync_type" ||
 							prefList[i] == "transfer_time" ||
 							prefList[i] == "transfer_interval" ||
-							prefList[i] == "max_log_no" ||
+							prefList[i] == "max_logs" ||
 							prefList[i] == "delay")
 					{
 						preferences[prefList[i]].value = this.prefs.getCharPref(prefList[i]);
@@ -1173,7 +1182,7 @@ var SyncPlacesOptions = {
 								prefList[i] == "sync_type" ||
 								prefList[i] == "transfer_time" ||
 								prefList[i] == "transfer_interval" ||
-								prefList[i] == "max_log_no" ||
+								prefList[i] == "max_logs" ||
 								prefList[i] == "delay")
 						{
 							this.prefs.setCharPref(prefList[i], preferences[prefList[i]].value);
@@ -1429,6 +1438,14 @@ var SyncPlacesOptions = {
 		var logFilePath = SyncPlacesIO.getDefaultFolder();
 		logFilePath.append("logs");
 		
+    //Display the current Max Log setting in the Text box
+    try {
+        document.getElementById("max_logs").value = SyncPlacesOptions.prefs.getCharPref("max_logs");
+    } catch (e) {
+        document.getElementById("max_logs").value = 1;
+    }
+    
+    
 		//Get the list of logs
 		if (logFilePath.exists() && logFilePath.isDirectory()) {
 			var files = logFilePath.directoryEntries;

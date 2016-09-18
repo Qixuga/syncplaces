@@ -101,15 +101,20 @@ var SyncPlacesDecryptThread = function(data, type, startupShutdown, sendSafe,
 SyncPlacesDecryptThread.prototype = {
   run: function() {
     try {
-    	this.data = SyncPlacesDecrypt(this.data, this.type);
-
-			if (this.type == SyncPlaces.PWD)
-				SyncPlacesReceive.retrievePasswords(this.data, this.startupShutdown,
-																						this.sendSafe, this.doHash);
-			else
-				SyncPlacesReceive.completeTheRestore(this.data, this.type,
-																						 this.startupShutdown, this.sendSafe,
-																						 this.doHash);
+    	var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                   .getService(Components.interfaces.nsIWindowMediator);
+      var BrowserWindow = wm.getMostRecentWindow("navigator:browser");
+      if (BrowserWindow != null) {
+          this.data = SyncPlacesDecrypt(this.data, this.type);
+    
+    			if (this.type == SyncPlaces.PWD)
+    				SyncPlacesReceive.retrievePasswords(this.data, this.startupShutdown,
+    																						this.sendSafe, this.doHash);
+    			else
+    				SyncPlacesReceive.completeTheRestore(this.data, this.type,
+    																						 this.startupShutdown, this.sendSafe,
+    																						 this.doHash);
+      }
 
     } catch(exception) {
 			SyncPlacesNetworking.running = false;

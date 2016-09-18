@@ -472,8 +472,8 @@ var SyncPlacesReceive = {
 			SyncPlacesIO.saveFile(((json ? this.jsonReceivedFile :
 																		this.xbelReceivedFile)),	data);
 
-		} catch (exception) {
-SyncPlacesIO.log("ERROR completeTheRestore: "+ exception);
+		} catch (e) {
+      SyncPlacesIO.log("ERROR completeTheRestore: "+ e);
 
 			SyncPlacesOptions.alert2(exception, 'cant_save_bookmarks', null, false);
 			return;
@@ -488,10 +488,14 @@ SyncPlacesIO.log("ERROR completeTheRestore: "+ exception);
 
 		//Check they have been received correctly
 		var hash = SyncPlaces.computeHash(data);
-SyncPlacesIO.log("this.bmsHash: "+ this.bmsHash);
-SyncPlacesIO.log("SyncPlaces.computeHash: "+ hash);
-		if (this.bmsHash && this.bmsHash != hash) {
-			SyncPlacesOptions.alert2(null, 'invalid_bookmarks', null, false,
+      SyncPlacesIO.log("Receive: this.bmsHash: "+ this.bmsHash);
+      SyncPlacesIO.log("Receive: SyncPlaces.computeHash: "+ hash);
+		
+    //removed by GR (don't understand the &&'s)
+    //if (this.bmsHash && this.bmsHash != hash) {
+    if (this.bmsHash && this.bmsHash != hash) {
+			SyncPlacesIO.log("Receive: SyncPlaces.computeHash: "+ hash + " not found equal to this.bmsHash: " + this.bmsHash);
+      SyncPlacesOptions.alert2(null, 'invalid_bookmarks', null, false,
 									"http://home.arcor.de/dac324/firefox/syncplaces/pages/support.html#receiving");
 			return;
 		}
@@ -507,7 +511,8 @@ SyncPlacesIO.log("SyncPlaces.computeHash: "+ hash);
 			if (SyncPlacesOptions.prefs.getBoolPref("auto_sort")) {
 				try {
 					SortPlacesSort.sortBookmarks(false);
-				} catch(e) {
+				} catch(e) { 
+          SyncPlacesIO.log("Receive: SyncPlaces.sortBookmarks: "+ e);
 				}
 			}
 
@@ -527,7 +532,7 @@ SyncPlacesIO.log("SyncPlaces.computeHash: "+ hash);
 					return;
 				}
 
-			} catch (exception) {
+			} catch (e) {
 				SyncPlacesOptions.alert2(exception, 'cant_save_cache', null, false);
 				return;
 			}

@@ -249,7 +249,13 @@ var SyncPlacesIO = {
 		this.saveFilePath(this.logFilePath, new Date().toLocaleString() + "\n");
 
 		//Increment/Rollover and Save the next log number
-		if (++nextLogNo > SyncPlacesOptions.prefs.getCharPref('max_log_no')) nextLogNo = 0;
+    try {
+        if (++nextLogNo > SyncPlacesOptions.prefs.getCharPref('max_logs')) nextLogNo = 0;
+    } catch (e) {
+        SyncPlacesIO.log("Error incrementing Log No.: " + e + e.message);
+        nextLogNo = 0;
+    }
+		
 		SyncPlacesOptions.prefs.setIntPref('next_log_no', nextLogNo);
 	},
 

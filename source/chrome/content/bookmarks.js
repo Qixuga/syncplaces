@@ -289,8 +289,8 @@ var SyncPlacesBookmarks = {
 			var child = result.getChild(i);
 			var existingID = child.itemId;
 
-			/*	CW
-			if (PlacesUtils.livemarks.isLivemark(existingID)) {
+			/*	CW  */
+			if (SyncPlacesBookmarks.isLivemark(existingID)) {
 				if ( this.sameValue(title, child.title, false) &&
 						 this.sameValue(feedURI,
 						 								PlacesUtils.livemarks.getFeedURI(existingID),
@@ -300,7 +300,7 @@ var SyncPlacesBookmarks = {
 					return existingID;
 				}
 			}
-			*/
+			/* */
 		}
 		result.containerOpen = false;
 		return null;
@@ -355,11 +355,13 @@ var SyncPlacesBookmarks = {
 		} catch(exception) {
 			//if index is too big!
 		}
-		if (existingID != -1 && this.sameValue(node.title,
+    
+		/* CW*/
+    
+    if (existingID != -1 && this.sameValue(node.title,
 				PlacesUtils.bookmarks.getItemTitle(existingID), false) &&
 				(PlacesUtils.bookmarks.getItemType(existingID) ==
-				PlacesUtils.bookmarks.TYPE_FOLDER) 
-// CW				&& !PlacesUtils.livemarks.isLivemark(existingID)
+				PlacesUtils.bookmarks.TYPE_FOLDER) && !SyncPlacesBookmarks.isLivemark(existingID)
 				)
 		{
 			//Use the appropriate description and index
@@ -805,7 +807,7 @@ var SyncPlacesBookmarks = {
 
 		} catch (e) {
 			Components.utils.reportError(e);
-			SyncPlacesIO.log("ERROR 1: "+ e);
+			SyncPlacesIO.log("ERROR 1: Exception saving FavIcons "+ e);
 		}
 	},
 
@@ -946,13 +948,42 @@ var SyncPlacesBookmarks = {
 
 		} catch (e) {
 			Components.utils.reportError(e);
-			SyncPlacesIO.log("ERROR 2: "+ e);
+			if (debug) SyncPlacesIO.log("ERROR 2: "+ e);
 		}
 	},
+
+    //inserted by GR
     //Helper to replace PlacesUtils.nodeIsLivemarkContainer which was removed by Mozilla
   
   nodeIsLivemarkContainer: function (aNode) {
-        return PlacesUtils.nodeIsFolder(aNode) && PlacesUtils.annotations.itemHasAnnotation(aNode.itemId, SyncPlacesBookmarks.SP_LMANNO_FEEDURI); 
+     var result = false;
+     if (typeof(aNode) !== "undefined")  {
+          try{
+              result = PlacesUtils.nodeIsFolder(aNode) && PlacesUtils.annotations.itemHasAnnotation(aNode.itemId, SyncPlacesBookmarks.SP_LMANNO_FEEDURI); 
+          } catch (e){
+              SyncPlacesIO.log("ERROR 2: "+ aNode.itemId + " is not a LiveMarkContainer"+ e);
+              result= false;
+          }
+     }
+     
+    return result;        
+    },
+    //inserted by GR
+    //Helper to replace PlacesUtils.nodeIsLivemark which was removed by Mozilla
+  isLivemark: function (aNode) {
+  
+      var result = false;
+      if (typeof(aNode) !== "undefined")  {
+        try {
+          result = PlacesUtils.annotations.itemHasAnnotation(aNode.itemId, SyncPlacesBookmarks.SP_LMANNO_FEEDURI);
+          } catch (e){
+          SyncPlacesIO.log("ERROR 2: "+ aNode.itemId + " is not a LiveMark"+ e);
+          result= false;
+          }                                
+     
+      }
+      return result;
+        
     }
 
 };

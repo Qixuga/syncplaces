@@ -5,7 +5,7 @@
 	<Description about="urn:mozilla:install-manifest">
     <em:id>syncplaces@andyhalford.com</em:id>
     <em:name>SyncPlaces</em:name>
-    <em:version>5.2.3</em:version>
+    <em:version>5.2.7</em:version>
 
     <em:type>2</em:type>
     <em:homepageURL>http://home.arcor.de/dac324/firefox/syncplaces/pages/index.html</em:homepageURL>

@@ -686,7 +686,7 @@ var SyncPlacesUtils = {
 						PlacesUtils.tagging.tagURI(SyncPlacesIO.makeURI(node.uri), tags);
 				}
 
-				if (node.charset) PlacesUtils.history.setCharsetForURI(SyncPlacesIO.makeURI(node.uri), node.charset);
+				if (node.charset) PlacesUtils.setCharsetForURI(SyncPlacesIO.makeURI(node.uri), node.charset);
 
 				if (query) {
 					searchIds.push(id);
@@ -1030,13 +1030,31 @@ var SyncPlacesUtils = {
               receivedIds.push(aLivemark.id);
         };
 
-        if (aParentId < 1 || !aFeedURI)
-          throw Cr.NS_ERROR_INVALID_ARG;
+        if (aParentId < 1 || !aFeedURI) { 
+           SyncPlacesIO.log ("Invalid Parent ID "
+                           + "Parent ID"
+                           + aParentId
+                           + ", " 
+                           + aName 
+                           + ", " 
+                           + SyncPlacesIO.showURI(aSiteURI)
+                           + ", " 
+                           + SyncPlacesIO.showURI(aFeedURI)
+                           + ", " 
+                           + aIndex);
+
+           throw Cr.NS_ERROR_INVALID_ARG;
+        }
+          
+          
 
         // Don't add livemarks to livemarks
         if (PlacesUtils.annotations.itemHasAnnotation(aParentId, SyncPlacesBookmarks.SP_LMANNO_FEEDURI))
           throw Cr.NS_ERROR_INVALID_ARG;
-        SyncPlacesIO.log ("Trying to add livemark " 
+        SyncPlacesIO.log ("Trying to add livemark "
+                           + "Parent ID"
+                           + aParentId
+                           + ", " 
                            + aName 
                            + ", " 
                            + SyncPlacesIO.showURI(aSiteURI)
